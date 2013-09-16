@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------
+/*------------------------------------------------------------------------------
 | Copyright (C) 2013 Kévin Seroux                                              |
 |                                                                              |
 | This software is provided 'as-is', without any express or implied warranty.  |
@@ -40,7 +40,7 @@ struct LTF
 {
 	uint16_t width;
 	uint16_t height;
-	uint8_t depth;
+	uint8_t depth; ///< Value in Bytes and in bits !
 	uint8_t* datas;
 };
 typedef struct LTF LTF;
@@ -60,7 +60,7 @@ extern "C" {
 ///         mode
 ////////////////////////////////////////////////////////////////////////////////
 IMPORT uint8_t const ExportToLTF(LTF const * const pLTF,
-								 char const * const pUrl);
+                                 char const * const pUrl);
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Load a LTF file

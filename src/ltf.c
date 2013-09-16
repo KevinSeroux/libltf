@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------------------
+/*------------------------------------------------------------------------------
 | Copyright (C) 2013 Kévin Seroux                                              |
 |                                                                              |
 | This software is provided 'as-is', without any express or implied warranty.  |
@@ -27,18 +27,25 @@
 
 #define EXPORT __declspec(dllexport)
 
-EXPORT uint8_t const ExportToLTF(LTF const * const pLTF, 
-								 char const * const pUrl)
+EXPORT uint8_t const ExportToLTF(LTF const * const pLTF,
+                                 char const * const pUrl)
 {
+	uint32_t countBytes, i;
+
 	FILE* file = fopen(pUrl, "wb");
 	if(file == NULL)
 	{
 		return LTFLIB_ERROR_OPEN_FAILED;
 	}
 
+	countBytes = pLTF->width * pLTF->height * pLTF->depth;
+
 	fwrite(&pLTF->width, sizeof(uint16_t), 1, file);
 	fwrite(&pLTF->height, sizeof(uint16_t), 1, file);
-	fwrite(pLTF->datas, pLTF->depth * pLTF->width * pLTF->height, 1, file);
+	for(i = 0; i < countBytes; i += pLTF->depth)
+	{
+		fwrite(pLTF->datas + i, 1, pLTF->depth, file);
+	}
 
 	fclose(file);
 
